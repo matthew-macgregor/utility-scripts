@@ -12,13 +12,16 @@ my $home = $ENV{HOME};
 if (! -d $home) {
 	die "Failed to find environment variable $home";
 }
-my $obsidian_version = '1.3.5';
+
+my $requested_version = shift @ARGV;
+my $obsidian_version = $requested_version // '1.3.5';
 my $obsidian_filename = "Obsidian-$obsidian_version.AppImage";
 my $obsidian_url = "https://github.com/obsidianmd/obsidian-releases/releases/download/v$obsidian_version/$obsidian_filename";
 my $bin_dir = "$home/.local/bin";
 my $icon_dir = "$home/.local/icons";
 my $desktop_file_path = "$home/.local/share/applications/obsidian.desktop";
 
+say "Obsidian version: $obsidian_version";
 say "bin_dir: $bin_dir";
 
 if (! -e $obsidian_filename) {
