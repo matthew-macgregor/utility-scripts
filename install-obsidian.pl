@@ -4,11 +4,26 @@ use v5.38.0;
 #use strict;
 #use warnings;
 
+use File::Which;
 use File::Fetch;
 use File::Copy;
 use File::Path qw(make_path rmtree);
 use Cwd;
 
+## ANSI Colors
+# ------------
+my $black   = "\033[0;30m";
+my $red     = "\033[0;31m";
+my $green   = "\033[0;32m";
+my $yellow  = "\033[0;33m";
+my $blue    = "\033[0;34m";
+my $magenta = "\033[0;35m";
+my $white   = "\033[0;37m";
+my $nocolor = "\033[0m";
+
+## Linux only
+# -----------
+die "Expected linux; got $^O." unless $^O =~ /linux/;
 
 ## Init Variables
 # ---------------
@@ -30,13 +45,23 @@ my $desktop_dest_file_path = "$home/.local/share/applications/obsidian.desktop";
 
 ## Log Variables
 # --------------
-printf "%-25s %s\n", 'obsidian_version', $obsidian_version;
-printf "%-25s %s\n", 'bin_dir', $bin_dir;
-printf "%-25s %s\n", 'obsidian_filename', $obsidian_filename;
-printf "%-25s %s\n", 'bin_dir', $bin_dir;
-printf "%-25s %s\n", 'icon_dir', $icon_dir;
-printf "%-25s %s\n", 'desktop_dest_file_path', $desktop_dest_file_path;
-printf "%-25s %s\n", 'home', $home;
+my $templ_str = "$magenta%-25s ${nocolor}%s\n";
+printf $templ_str, 'obsidian_version', $obsidian_version;
+printf $templ_str, 'requested_version', $requested_version if defined $requested_version;
+printf $templ_str, 'obsidian_filename', $obsidian_filename;
+printf $templ_str, 'bin_dir', $bin_dir;
+printf $templ_str, 'icon_dir', $icon_dir;
+printf $templ_str, 'desktop_dest_file_path', $desktop_dest_file_path;
+printf $templ_str, 'home', $home;
+
+## Check if Installed
+# -------------------
+my $current_obsidian_path = which 'obsidian';
+if (defined $current_obsidian_path && !defined $requested_version) {
+	say "${red}Obsidian is already installed at: $current_obsidian_path." if defined $current_obsidian_path;
+	say "To reinstall or upgrade, pass the requested Obsidian version, for example: 1.3.5.$nocolor";
+	exit 0 unless $requested_version;
+}
 
 ## Create Directories
 # -------------------
@@ -53,8 +78,9 @@ if (! -d $icon_dir) {
 # ---------------
 if (! -e $obsidian_filename) {
 	say "Fetching: $obsidian_url";
+	$File::Fetch::WARN = 0;
 	my $ff = File::Fetch->new(uri => $obsidian_url);
-	my $file = $ff->fetch() or die $ff->error;
+	my $file = $ff->fetch() or die "Failed to fetch $obsidian_url.";
 } else {
 	say "Skipping download: $obsidian_url";
 }
