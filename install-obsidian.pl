@@ -33,7 +33,7 @@ if (! -d $home) {
 }
 my $cwd = getcwd;
 my $requested_version = shift @ARGV;
-my $obsidian_version = $requested_version // '1.3.5';
+my $obsidian_version = $requested_version // '1.4.16';
 my $obsidian_filename = "Obsidian-$obsidian_version.AppImage";
 my $obsidian_url = "https://github.com/obsidianmd/obsidian-releases/releases/download/v$obsidian_version/$obsidian_filename";
 my $bin_dir = "$home/.local/bin";
