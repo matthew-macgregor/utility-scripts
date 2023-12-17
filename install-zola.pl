@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use 5.30.0;
+use 5.36.0;
 
 use File::Which;
 use Cwd;
@@ -67,13 +67,13 @@ printf "%-25s %s\n", 'repo_dir', $repo_dir;
 # ------------------------
 if (! -d $repo_dir) {
 	chdir $repos_dir;
-	my $exit_code = system "git clone $zola_repo --branch $zola_tag --single-branch";
+	my $exit_code = system "git clone $zola_repo --branch $zola_tag";
 	die "Failed to clone $zola_repo for $zola_tag." unless $exit_code == 0;
-} else {
-	chdir $repo_dir;
-	my $exit_code = system "git checkout tags/$zola_tag";
-	die "Failed to checkout $zola_tag." unless $exit_code == 0;
 }
+
+chdir $repo_dir;
+my $exit_code = system "git checkout tags/$zola_tag";
+die "Failed to checkout $zola_tag." unless $exit_code == 0;
 
 ## Build/Install
 # --------------
