@@ -77,13 +77,13 @@ die "Failed to checkout $zola_tag." unless $exit_code == 0;
 
 ## Build/Install
 # --------------
-my $exit_code = system "cargo install --path .";
+$exit_code = system "cargo install --path .";
 die "Failed to cargo build/install Zola $zola_tag." unless $exit_code == 0;
 system "git checkout master";
 
 ## Check Version
 # --------------
-$actual_version = `zola --version`;
+$actual_version = `$ENV{HOME}/.cargo/bin/zola --version`;
 die "Expected zola $zola_version but found $actual_version." unless $actual_version eq "zola $zola_version";
 
 ## Check Install

@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:matthew@pop-os.localdomain" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#Helper-Utilities">Helper Utilities</a>
+    <ul>
+      <li><a href="#Functions">Functions</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="Helper-Utilities">Helper Utilities</h1>
+
+<p><code>Helpers.pm</code> provides utility functions for setup tasks on macOS, Linux, and possibly other unixes.</p>
+
+<h2 id="Functions">Functions</h2>
+
+<dl>
+
+<dt id="get_linux_os_release-os_release-as-string"><code>get_linux_os_release [$os_release as string]</code></dt>
+<dd>
+
+<p>OS: unix</p>
+
+<p><code>get_linux_os_release</code> returns a hash with the values in <code>/etc/os-release</code>, or an empty hash if that file doesn&#39;t exist. If a string parameter is passed, it will be used instead of the contents of <code>/etc/os-release</code>.</p>
+
+<p>Example keys and values from the hash:</p>
+
+<pre><code>NAME=&quot;Pop!_OS&quot;
+VERSION=&quot;22.04 LTS&quot;
+ID=pop
+ID_LIKE=&quot;ubuntu debian&quot;
+PRETTY_NAME=&quot;Pop!_OS 22.04 LTS&quot;
+VERSION_ID=&quot;22.04&quot;
+HOME_URL=&quot;https://pop.system76.com&quot;
+SUPPORT_URL=&quot;https://support.system76.com&quot;
+BUG_REPORT_URL=&quot;https://github.com/pop-os/pop/issues&quot;
+PRIVACY_POLICY_URL=&quot;https://system76.com/privacy&quot;
+VERSION_CODENAME=jammy
+UBUNTU_CODENAME=jammy</code></pre>
+
+</dd>
+<dt id="is_os-os_str-as-string-dist_str-as-string"><code>is_os $os_str (as string), [$dist_str (as string)]</code></dt>
+<dd>
+
+<p>Function <code>is_os</code> accepts a string <code>$os_str</code> parameter (&#39;linux&#39;, &#39;darwin&#39;, etc.), and optionally on linux a <code>$dist_str</code> parameter (&#39;debian&#39;, &#39;pop&#39;, &#39;ubuntu&#39;, etc.).</p>
+
+</dd>
+</dl>
+
+
+</body>
+
+</html>
+
+

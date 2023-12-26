@@ -1,2 +1,4 @@
 .DS_Store
 *.AppImage
+scratch.pl
+pod2htmd.tmp

@@ -1,21 +1,21 @@
 #!/usr/bin/env perl
 
-use strict; # not needed after v5.35.0
-use warnings;
-use feature 'say';
+use File::Which;
+# use strict; # not needed after v5.35.0
+# use warnings;
+# use feature 'say';
+use v5.38.0;
 
 sub get_linux_os_release {
-	my %os=();
+	my %os_release=();
 	my $filepath="/etc/os-release";
 	
-	unless (open(OS, '<', $filepath)) {
-		die("Failed to open '$filepath'.");
-	}
+	open(my $OS, '<', $filepath) || die("Failed to open '$filepath'.");
 	 
-	while (<OS>){
+	while (<$OS>) {
 	    my @os_param = split /=/, $_;
 		chomp($os_param[1]);
-		$os{$os_param[0]}=$os_param[1];
+		$os_release{$os_param[0]}=$os_param[1];
 	}
 
 	# NAME="Pop!_OS"
@@ -31,13 +31,15 @@ sub get_linux_os_release {
 	# VERSION_CODENAME=jammy
 	# UBUNTU_CODENAME=jammy
 	
-	return %os;
+	return %os_release;
 }
 
 sub check_installed {
 	my $cmd = shift @_;
-	say `sh -c 'type $cmd'`;
-	return $? == 0 ? 1 : 0;
+	# say `sh -c 'type $cmd'`;
+	# return $? == 0 ? 1 : 0;
+	# TODO: Test this
+	my $current_exe_path = which $cmd;
 }
 
 sub check_install_curl_debian {
@@ -76,7 +78,7 @@ sub install_gh_fedora {
 }
 
 say "OS: $^O"; # Operating System
-if (check_installed 'gh') {
+if (check_installed('gh')) {
 	say "gh is already installed.";
 	exit 0;
 }
