@@ -50,7 +50,6 @@ sub get_exe_path {
 	return which $cmd;
 }
 
-
 sub check_installed {
 	my ($cmd, $fallback) = @_;
 	if (defined $fallback) {
@@ -70,8 +69,8 @@ sub is_os {
 		if ($os_str eq 'linux') {
 		 	if (defined $dist_str) {
 				my %os_hash = get_linux_os_release();
-				my $dist_id = $os_hash{ID_LIKE} . " " . $os_hash{ID};
-				return ($dist_str =~ /$dist_str/) ? 1 : 0;
+				my $dist_id = $os_hash{ID};
+				return ($dist_str =~ /$dist_id/) ? 1 : 0;
 			}
 		} else {
 			die "$dist_str is not compatible with $os_str" unless not defined $dist_str;
