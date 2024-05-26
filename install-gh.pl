@@ -1,46 +1,11 @@
 #!/usr/bin/env perl
 
 use File::Which;
-# use strict; # not needed after v5.35.0
-# use warnings;
-# use feature 'say';
 use v5.38.0;
 
-sub get_linux_os_release {
-	my %os_release=();
-	my $filepath="/etc/os-release";
-	
-	open(my $OS, '<', $filepath) || die("Failed to open '$filepath'.");
-	 
-	while (<$OS>) {
-	    my @os_param = split /=/, $_;
-		chomp($os_param[1]);
-		$os_release{$os_param[0]}=$os_param[1];
-	}
-
-	# NAME="Pop!_OS"
-	# VERSION="22.04 LTS"
-	# ID=pop
-	# ID_LIKE="ubuntu debian"
-	# PRETTY_NAME="Pop!_OS 22.04 LTS"
-	# VERSION_ID="22.04"
-	# HOME_URL="https://pop.system76.com"
-	# SUPPORT_URL="https://support.system76.com"
-	# BUG_REPORT_URL="https://github.com/pop-os/pop/issues"
-	# PRIVACY_POLICY_URL="https://system76.com/privacy"
-	# VERSION_CODENAME=jammy
-	# UBUNTU_CODENAME=jammy
-	
-	return %os_release;
-}
-
-sub check_installed {
-	my $cmd = shift @_;
-	# say `sh -c 'type $cmd'`;
-	# return $? == 0 ? 1 : 0;
-	# TODO: Test this
-	my $current_exe_path = which $cmd;
-}
+use File::Basename;
+use lib dirname (__FILE__);
+use Helpers qw(is_os check_installed);
 
 sub check_install_curl_debian {
 	# ensure that curl is already installed 
@@ -73,39 +38,28 @@ sub install_gh_fedora {
 		die "Unable to install config-manager." unless $? == 0;
 		say `sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo`;
 		die "Unable to add gh-cli.rep" unless $? == 0;
-		say `sudo dnf install gh`;
+		say `sudo dnf install -y gh`;
 		die "Unable to install gh." unless $? == 0;
 }
 
 say "OS: $^O"; # Operating System
-if (check_installed('gh')) {
+if (check_installed 'gh') {
 	say "gh is already installed.";
 	exit 0;
 }
 
-
-if ($^O eq 'linux') {
-	# might be "debian ubuntu" or "fedora" or "debian ubuntu pop"
-	my %os_hash = get_linux_os_release();
-	my $linux_id = $os_hash{ID_LIKE} . " " . $os_hash{ID};
-	# say $os_hash{ID_LIKE};
-	# say $os_hash{ID};
-	say "OS Release Id: $linux_id";
-	
+if (is_os 'linux', 'debian') {
 	# TODO: should we detect distribution, package manager, or both?
-	if ($linux_id =~ /debian/) {
-		say "Debian/Ubuntu: probably debian-like";
-		say "Ensuring prerequisites.";
-		check_install_curl_debian();
-		install_gh_debian();
-	} elsif ($linux_id =~ /fedora/) {
-		say "Fedora: probably fedora-like";
-		install_gh_fedora();
-	}
-} elsif ($^O eq 'darwin') {
+	say "Debian/Ubuntu: probably debian-like";
+	say "Ensuring prerequisites.";
+	check_install_curl_debian();
+	install_gh_debian();
+} elsif (is_os 'linux', 'fedora') {
+	say "Fedora: probably fedora-like";
+	install_gh_fedora();
+} elsif (is_os 'darwin') {
 	`brew install gh`
 } else {
 	die "Sorry, can't support '$^0' (yet)"
 }
-
 

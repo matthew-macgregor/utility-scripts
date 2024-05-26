@@ -16,7 +16,6 @@ sub parse_linux_os_release {
 
 sub get_linux_os_release {
 	my $os_release_str = shift;
-
 	my %os=();
 
 	# Parse key,values from a string
