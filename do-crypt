@@ -1,0 +1,40 @@
+#!/usr/bin/env perl
+
+use v5.38;
+
+sub usage {
+  die "Usage: $0 path/to/file" if @ARGV < 1;
+}
+
+sub encrypt_file {
+  my ($file,) = @_;
+  say $file;
+  die "encrypt:: file $file does not exist." if ! -e $file;
+  say `gpg --output "$file.enc" --symmetric --cipher-algo AES256 "$file"`;
+  die "encrypt:: failed" if $?;
+  unlink $file unless ! -e "$file.enc";
+}
+
+sub decrypt_file {
+  my ($file,) = @_;
+  say $file;
+  die "decrypt:: file $file does not exist." if ! -e $file;
+  die "decrypt:: file $file has the wrong extension." unless $file =~ /\.enc$/i;
+  (my $without_extension = $file) =~ s/\.[^.]+$//;
+  say `gpg --output "$without_extension" --decrypt "$file"`;
+  die "decrypt:: failed" if $?;
+  unlink $file unless ! -e "$without_extension";
+}
+
+sub main {
+  usage;
+
+  my ($file,) = @ARGV;
+  say "$file";
+
+  if    ($file !~ /\.enc$/i) { encrypt_file $file; } 
+  elsif ($file =~ /\.enc$/i) { decrypt_file $file; }
+  else { say "1"; usage; }
+}
+
+main;
