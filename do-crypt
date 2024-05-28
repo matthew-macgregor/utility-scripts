@@ -17,7 +17,6 @@ sub encrypt_file {
 
 sub decrypt_file {
   my ($file,) = @_;
-  say $file;
   die "decrypt:: file $file does not exist." if ! -e $file;
   die "decrypt:: file $file has the wrong extension." unless $file =~ /\.enc$/i;
   (my $without_extension = $file) =~ s/\.[^.]+$//;
@@ -30,7 +29,6 @@ sub main {
   usage;
 
   my ($file,) = @ARGV;
-  say "$file";
 
   if    ($file !~ /\.enc$/i) { encrypt_file $file; } 
   elsif ($file =~ /\.enc$/i) { decrypt_file $file; }
