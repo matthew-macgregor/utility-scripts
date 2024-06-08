@@ -6,12 +6,12 @@
 - /Pictures/
 - .DS_Store
 - /Sync/Code/
+- OnlineOnly
 
 # Includes
 + /Documents/Secure/**
 + /Documents/Notes/**
 + /Documents/RPG/**
 + /Documents/Rclone/**
-+ /Scripts/**
 + /Sync/**
 - **
