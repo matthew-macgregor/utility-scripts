@@ -1,0 +1,2 @@
+my_hosts = ["@local"]
+
