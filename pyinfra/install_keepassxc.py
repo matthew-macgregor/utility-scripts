@@ -11,6 +11,7 @@ kernel = host.get_fact(Kernel)
 
 src = "https://github.com/keepassxreboot/keepassxc.git"
 version = "2.7.8"
+home_directory_path = os.path.expanduser("~")
 code_directory_path = os.path.expanduser("~/Code/repos/keepassxc")
 dest = code_directory_path
 build_directory_path = f"{dest}/build"
@@ -91,3 +92,4 @@ server.shell(
     _chdir=build_directory_path,
     _sudo=bool(install_with_sudo),
     _use_sudo_password=bool(install_with_sudo))
+
