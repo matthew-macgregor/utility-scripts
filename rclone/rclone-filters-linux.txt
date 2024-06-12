@@ -3,12 +3,12 @@
 - /Library/
 - /Pictures/Photos Library.photoslibrary
 - /Movies/Video/
-- /Pictures/
 - .DS_Store
 - /Sync/Code/
 - OnlineOnly
 
 # Includes
++ /Pictures/**
 + /Documents/Secure/**
 + /Documents/Notes/**
 + /Documents/RPG/**

@@ -15,8 +15,8 @@ if [[ "$1" == "self-install" ]]; then
   echo "Script path: $script"
   echo "Script dir: $script_dir"
 
-  cp -v "$script" "$bin_dir"/do-rclone-onedrive
-  chmod +x "$bin_dir"/do-rclone-onedrive
+  cp -v "$script" "$bin_dir"/rclone-onedrive
+  chmod +x "$bin_dir"/rclone-onedrive
   mkdir -p "$filters_dir"
   cp -v "$script_dir"/rclone-filters-*.txt "$filters_dir"
   exit 0
