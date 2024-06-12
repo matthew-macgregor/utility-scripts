@@ -6,7 +6,7 @@
 - /Pictures/
 - .DS_Store
 - /Sync/Code/
-- OnlineOnly
+- OnlineOnly/
 
 # Includes
 + /Documents/Secure/**

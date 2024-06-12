@@ -5,7 +5,7 @@
 - /Movies/Video/
 - .DS_Store
 - /Sync/Code/
-- OnlineOnly
+- OnlineOnly/
 
 # Includes
 + /Pictures/**
