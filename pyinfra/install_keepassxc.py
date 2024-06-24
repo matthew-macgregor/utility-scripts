@@ -10,7 +10,7 @@ def cmd(*parts: Iterable[str]):
 kernel = host.get_fact(Kernel)
 
 src = "https://github.com/keepassxreboot/keepassxc.git"
-version = "2.7.8"
+version = "2.7.9"
 home_directory_path = os.path.expanduser("~")
 code_directory_path = os.path.expanduser("~/Code/repos/keepassxc")
 dest = code_directory_path
